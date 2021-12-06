@@ -27,7 +27,11 @@ public class PlayContorller : MonoBehaviour
     public GameObject jumpFX;
     public GameObject landFX;
     public GameObject runFX;
-    
+
+    [Header(("Attack Setting"))] 
+    public GameObject bombPrefab;
+    public float nextAttack = 0;
+    public float attackRate;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +56,11 @@ public class PlayContorller : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGround)
         {
             canJump = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Attack();
         }
     }
     void Movement()
@@ -83,6 +92,15 @@ public class PlayContorller : MonoBehaviour
         }
     }
 
+    public void Attack()
+    {
+        if (Time.time > nextAttack)
+        {
+            Instantiate(bombPrefab, transform.position, bombPrefab.transform.rotation);
+            nextAttack = Time.time + attackRate;
+        }
+        
+    }
     void PhysicsCheck()
     {
         isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);

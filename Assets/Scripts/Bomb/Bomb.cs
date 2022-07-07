@@ -26,10 +26,15 @@ public class Bomb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > startTime + waitTime)
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName(("Bomb_off")))
         {
-            anim.Play("Bomb_explotion");
+            if (Time.time > startTime + waitTime)
+            {
+                anim.Play("Bomb_explotion");
+            }
         }
+
+
     }
 
     public void OnDrawGizmos()
@@ -54,4 +59,11 @@ public class Bomb : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void TurnOff()
+    {
+        anim.Play("Bomb_off");
+        gameObject.layer = LayerMask.NameToLayer("NPC");
+    }
+
 }

@@ -52,6 +52,10 @@ public class Bomb : MonoBehaviour
         {
             Vector3 pos = transform.position - item.transform.position;
             item.GetComponent<Rigidbody2D>().AddForce((-pos+Vector3.up)*bombForce,ForceMode2D.Impulse);
+            if (item.CompareTag("Bomb") && item.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Bomb_off"))
+            {
+                item.GetComponent<Bomb>().TurnOn();
+            }
         }
     }
 
@@ -66,4 +70,10 @@ public class Bomb : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("NPC");
     }
 
+    public void TurnOn()
+    {
+        startTime = Time.time;
+        anim.Play("Bomb_on");
+        gameObject.layer = LayerMask.NameToLayer("Bomb");
+    }
 }

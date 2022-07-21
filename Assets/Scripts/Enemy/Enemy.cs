@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour
     EnemyBaseState currentState;
     public Animator anim;
     public int animState;
+    [Header("Base State")]
+    public float health;
+    public bool isDead;
+
     [Header("Movement")] 
     public float speed;
     public Transform pointA, pointB;

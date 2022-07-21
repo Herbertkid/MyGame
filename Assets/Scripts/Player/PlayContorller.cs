@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class PlayContorller : MonoBehaviour
+public class PlayContorller : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rb;
+    private Animator anim;
 
     public float speed;
 
     public float jumpForce;
 
-   
+    [Header("Player State")]
+    public float health;
+    public bool isDead;
+
     [Header("Ground Check")] 
     public Transform groundCheck;
     public float checkRadius;
@@ -36,16 +40,27 @@ public class PlayContorller : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        anim.SetBool("dead", isDead);
+        if(isDead)
+            return;
+
         CheckInput();
+   
     }
 
     public void FixedUpdate()
     { 
+        if (isDead)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
         PhysicsCheck(); 
         Movement(); 
         Jump();
@@ -131,5 +146,16 @@ public class PlayContorller : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position,checkRadius);
+    }
+
+    public void GetHit(float damage)
+    {
+        health = health - damage;
+        if(health < 1)
+        {
+            health = 0;
+            isDead = true;
+        }
+        anim.SetTrigger("hit");
     }
 }

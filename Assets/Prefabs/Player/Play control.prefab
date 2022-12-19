@@ -567,6 +567,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jumpForce: 16
+  health: 5
+  isDead: 0
   groundCheck: {fileID: 3834595643963613237}
   checkRadius: 0.29
   groundLayer:

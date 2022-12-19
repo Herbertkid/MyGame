@@ -163,4 +163,4 @@ MonoBehaviour:
   radius: 1.53
   targetLayer:
     serializedVersion: 2
-    m_Bits: 7168
+    m_Bits: 23552

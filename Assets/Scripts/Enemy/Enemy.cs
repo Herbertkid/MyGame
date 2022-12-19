@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     EnemyBaseState currentState;
     public Animator anim;
     public int animState;
+
+    private GameObject alarmSign;
+
     [Header("Base State")]
     public float health;
     public bool isDead;
@@ -36,6 +39,7 @@ public class Enemy : MonoBehaviour
     public virtual void Init()
     {
         anim = GetComponent<Animator>();
+        alarmSign = transform.GetChild(0).gameObject;
     }
 
     public void Awake()
@@ -51,6 +55,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anim.SetBool("dead", isDead);
+        if(isDead)
+            return;
         currentState.OnUpdate(this);
         anim.SetInteger("state", animState);
     }
@@ -126,4 +133,16 @@ public class Enemy : MonoBehaviour
     {
         attackList.Remove(collision.transform);
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        StartCoroutine(OnAlarm());
+    }
+
+    IEnumerator OnAlarm()
+    {
+        alarmSign.SetActive(true);
+        yield return new WaitForSeconds(alarmSign.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+        alarmSign.SetActive(false);
+    }
+
 }

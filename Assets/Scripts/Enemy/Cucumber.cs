@@ -17,6 +17,7 @@ public class Cucumber : Enemy, IDamageable
             health = 0;
             isDead = true;
         }
+        anim.SetTrigger("hit");
     }
 
 }
